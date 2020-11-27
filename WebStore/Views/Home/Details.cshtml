@@ -1,0 +1,36 @@
+﻿@model WebStore.Models.Employee
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <h1>Карточка сотрудника: @Model.LastName @Model.FirstName</h1>
+    <table>
+        <tr>
+            <td>Фамилия</td>
+            <td>@Model.LastName</td>
+        </tr>
+        <tr>
+            <td>Имя</td>
+            <td>@Model.FirstName</td>
+        </tr>
+        <tr>
+            <td>Отчество</td>
+            <td>@Model.Patronymic</td>
+        </tr>
+        <tr>
+            <td>Возраст</td>
+            <td>@Model.Age</td>
+        </tr>
+        <tr>
+            <td>Дата рождения</td>
+            <td>@Model.BirthDay.ToString("dd.MM.yyyy")</td>
+        </tr>
+    </table>
+    <hr/>
+    <a href="~/Home/Employes">Назад к списку сотрудников</a>
+</body>
+</html>

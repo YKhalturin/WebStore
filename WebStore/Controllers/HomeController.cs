@@ -12,11 +12,11 @@ namespace WebStore.Controllers
     {
         private IConfiguration _configuration;
 
-        private static readonly List<Employee> Employees = new List<Employee>
+        public static readonly List<Employee> Employees = new List<Employee>
         {
-            new Employee() {Id = 1, LastName = "Иванов", FirstName = "Иван", Patronymic = "Иванович", Age = 32},
-            new Employee() {Id = 2, LastName = "Петров", FirstName = "Петр", Patronymic = "Петрович", Age = 22},
-            new Employee() {Id = 3, LastName = "Сидоров", FirstName = "Сидор", Patronymic = "Сидорович", Age = 42},
+            new Employee() {Id = 1, LastName = "Иванов", FirstName = "Иван", Patronymic = "Иванович", Age = 30, BirthDay = new DateTime(1990,12,11)},
+            new Employee() {Id = 2, LastName = "Петров", FirstName = "Петр", Patronymic = "Петрович", Age = 20, BirthDay = new DateTime(2000,4,2)},
+            new Employee() {Id = 3, LastName = "Сидоров", FirstName = "Сидор", Patronymic = "Сидорович", Age = 40, BirthDay = new DateTime(1980,4,4)},
         };
 
         public HomeController( IConfiguration configuration)
@@ -38,5 +38,11 @@ namespace WebStore.Controllers
         {
             return View(Employees);
         }
+
+        public IActionResult Details(int id)
+        {
+            return View(Employees.First(x => x.Id == id));
+        }
+
     }
 }
