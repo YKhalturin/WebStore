@@ -1,14 +1,9 @@
 ﻿@model WebStore.Models.Employee
 <!DOCTYPE html>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Index</title>
-</head>
-<body>
+<div class="container">
     <h1>Карточка сотрудника: @Model.LastName @Model.FirstName</h1>
-    <table>
+    <table class="table">
         <tr>
             <td>Фамилия</td>
             <td>@Model.LastName</td>
@@ -30,7 +25,6 @@
             <td>@Model.BirthDay.ToString("dd.MM.yyyy")</td>
         </tr>
     </table>
-    <hr/>
-    <a href="~/Home/Employes">Назад к списку сотрудников</a>
-</body>
-</html>
+    <hr />
+    <a asp-action="Index" class="btn btn-default">Назад к списку сотрудников</a>
+</div>
