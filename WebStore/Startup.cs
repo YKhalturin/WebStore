@@ -3,11 +3,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using WebStore.Infrastructure.Middleware;
 
 namespace WebStore
 {
@@ -23,7 +20,10 @@ namespace WebStore
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(opt =>
+            {
+                //opt.Conventions.Add(new WebStoreControlConvention());
+            }).AddRazorRuntimeCompilation();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +36,13 @@ namespace WebStore
 
             app.UseStaticFiles();
             app.UseRouting();
+
+            //app.UseMiddleware<TestMiddleware>();
+            //app.Map("/Hello",
+            //    async context => context.Run(async request => await request.Response.WriteAsync("Hello world")));
+            //app.MapWhen(
+            //    context => context.Request.Query.ContainsKey("id") && context.Request.Query["id"] == "5",
+            //    context => context.Run(async request => await request.Response.WriteAsync("Hello World with id:5!")));
 
             app.UseEndpoints(endpoints =>
             {
