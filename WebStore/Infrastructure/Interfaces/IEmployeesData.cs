@@ -8,11 +8,10 @@ namespace WebStore.Infrastructure.Interfaces
     public interface IEmployeesData
     {
         IEnumerable<Employee> Get();
-        Employee Set(int id);
+        Employee Get(int id);
 
         int Add(Employee employee);
         void Update(Employee employee);
-        bool Delete(Employee employee);
-        void SaveChanges();
+        bool Delete(int id);
     }
 }
