@@ -44,6 +44,8 @@ namespace WebStore
             //    context => context.Request.Query.ContainsKey("id") && context.Request.Query["id"] == "5",
             //    context => context.Run(async request => await request.Response.WriteAsync("Hello World with id:5!")));
 
+            app.UseWelcomePage("/welcome");
+
             app.UseEndpoints(endpoints =>
             {
                 //endpoints.MapGet("/", async context => await context.Response.WriteAsync(_configuration["greetings"]));
