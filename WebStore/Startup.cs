@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +22,12 @@ namespace WebStore
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddTransient<IService, ServiceImplementation>();
+            //services.AddScoped<IService, ServiceImplementation>();
+            //services.AddSingleton<IService, ServiceImplementation>();
+
             services.AddTransient<IEmployeesData, InMemoryEmployeesData>();
+            //services.AddTransient<IEmployeesData>(service => new InMemoryEmployeesData());
             services.AddControllersWithViews(opt =>
             {
                 //opt.Conventions.Add(new WebStoreControlConvention());
@@ -30,8 +35,15 @@ namespace WebStore
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env/*, IServiceProvider services*/)
         {
+            //var employees = services.GetService<IEmployeesData>();
+            
+            //using (var scope = services.CreateScope())
+            //{
+            //    var service = scope.ServiceProvider.GetRequiredService<IEmployeesData>();
+            //}
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
