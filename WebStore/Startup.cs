@@ -27,6 +27,7 @@ namespace WebStore
             //services.AddSingleton<IService, ServiceImplementation>();
 
             services.AddTransient<IEmployeesData, InMemoryEmployeesData>();
+            services.AddTransient<IProductData, InMemoryProductData>();
             //services.AddTransient<IEmployeesData>(service => new InMemoryEmployeesData());
             services.AddControllersWithViews(opt =>
             {
