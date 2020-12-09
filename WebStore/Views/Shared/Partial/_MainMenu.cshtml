@@ -1,0 +1,23 @@
+﻿<ul class="nav navbar-nav collapse navbar-collapse">
+    <li><a asp-controller="Home" asp-action="Index" class="active">Home</a></li>
+    <li class="dropdown">
+        <a href="#">Shop<i class="fa fa-angle-down"></i></a>
+        <ul role="menu" class="sub-menu">
+            <li><a asp-controller="Catalog" asp-action="Shop">Products</a></li>
+            <li><a asp-controller="ProductDetails" asp-action="Index">Product Details</a></li>
+            <li><a asp-controller="CheckOut" asp-action="Index">Checkout</a></li>
+            <li><a asp-controller="Cart" asp-action="Index">Cart</a></li>
+            <li><a asp-controller="Login" asp-action="Index">Login</a></li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a asp-controller="Blogs" asp-action="Index">Blog<i class="fa fa-angle-down"></i></a>
+        <ul role="menu" class="sub-menu">
+            <li><a asp-controller="Blogs" asp-action="Index">Blog List</a></li>
+            <li><a asp-controller="Blogs" asp-action="BlogSingle">Blog Single</a></li>
+        </ul>
+    </li>
+    <li><a asp-controller="Error404" asp-action="Index">404</a></li>
+    <li><a asp-controller="ContactUs" asp-action="Index">Contact</a></li>
+    <li><a asp-controller="Employes" asp-action="Index">Employees</a></li>
+</ul>
