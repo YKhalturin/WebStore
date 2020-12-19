@@ -1,11 +1,17 @@
-﻿@model IEnumerable<WebStore.Models.Employee>
+﻿@using WebStore.Domain.Entities.Identity
+@model IEnumerable<WebStore.Models.Employee>
 
 <!DOCTYPE html>
 
 <div class="container">
     <h3>Сотрудники</h3>
     <div>
-        <a asp-action="Create" class="btn btn-primary">Создать</a>
+        @if (User.IsInRole(Role.Administrator))
+        {
+            <div>
+                <a asp-action="Create" class="btn btn-primary">Создать</a>
+            </div>
+        } 
     </div>
     <table class="table">
         <thead>
@@ -16,8 +22,11 @@
             <th>Отчество</th>
             <th>Возраст</th>
             <th></th>
-            <th></th>
-            <th></th>
+            @if (User.IsInRole(Role.Administrator))
+            {
+                <th></th>
+                <th></th>
+            }
         </tr>
         </thead>
         <tbody>
@@ -34,19 +43,21 @@
                         <i class="fa fa-info-circle"></i>
                     </a>
                 </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@employee.Id">
-                        <i class="fa fa-edit"></i>
-                    </a>
-                </td>
-                <td>
-                    <form asp-action="DeleteConfirmed" asp-route-id="@employee.Id">
-                        @*<input type="submit" value="Удалить" class="btn btn-danger" /> |*@
-                        <button type="submit" class="btn btn-danger btn-sm">
-                            <i class="fa fa-times"></i>
-                        </button>
-                    </form>
-                </td>
+                @if (User.IsInRole(Role.Administrator))
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@employee.Id">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <form asp-action="DeleteConfirmed" asp-route-id="@employee.Id">
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </form>
+                    </td>
+                }
             </tr>
         }
         </tbody>

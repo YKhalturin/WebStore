@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebStore.Domain;
 using WebStore.Infrastructure.Interfaces;
+using WebStore.Infrastructure.Mapping;
 using WebStore.ViewModels;
 
 namespace WebStore.Controllers
@@ -31,36 +32,40 @@ namespace WebStore.Controllers
                 BrandId = BrandId,
                 Products = products
                     .OrderBy(p => p.Order)
-                    .Select(p => new ProductViewModel
-                    {
-                        Id = p.Id,
-                        Name = p.Name,
-                        Price = p.Price,
-                        ImageUrl = p.ImageUrl
-                    })
+                    .ToView()
             });
         }
 
-        //public IActionResult Shop2(ProductFilter filter)
-        //{
-        //        var products = _ProductData.GetProducts(filter);
+        public IActionResult Shop2(ProductFilter filter)
+        {
+                var products = _ProductData.GetProducts(filter);
 
-        //        return View("Shop", new CatalogViewModel
-        //        {
-        //            SectionId = filter.SectionId,
-        //            BrandId = filter.BrandId,
-        //            Products = products
-        //                .OrderBy(p => p.Order)
-        //                .Select(p => new ProductViewModel
-        //                {
-        //                    Id = p.Id,
-        //                    Name = p.Name,
-        //                    Price = p.Price,
-        //                    ImageUrl = p.ImageUrl
-        //                })
-        //        });
-        //}
+                return View("Shop", new CatalogViewModel
+                {
+                    SectionId = filter.SectionId,
+                    BrandId = filter.BrandId,
+                    Products = products
+                        .OrderBy(p => p.Order)
+                        .Select(p => new ProductViewModel
+                        {
+                            Id = p.Id,
+                            Name = p.Name,
+                            Price = p.Price,
+                            ImageUrl = p.ImageUrl
+                        })
+                });
+        }
 
+
+        public IActionResult Details(int id)
+        {
+            var product = _ProductData.GetProductById(id);
+
+            if (product is null)
+                return NotFound();
+
+            return View(product.ToView());
+        }
     }
     
 }
