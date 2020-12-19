@@ -1,20 +1,27 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using WebStore.DAL.Context;
+using WebStore.Domain.Entities.Identity;
 
 namespace WebStore.Data
 {
     public class WebStoreDBInitializer
     {
         private readonly WebStoreDB _db;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly ILogger<WebStoreDBInitializer> _Logger;
 
-        public WebStoreDBInitializer(WebStoreDB db, ILogger<WebStoreDBInitializer> Logger)
+        public WebStoreDBInitializer(WebStoreDB db, UserManager<User> UserManager, RoleManager<Role> RoleManager,  ILogger<WebStoreDBInitializer> Logger)
         {
             _db = db;
+            _userManager = UserManager;
+            _roleManager = RoleManager;
             _Logger = Logger;
         }
 
@@ -44,6 +51,16 @@ namespace WebStore.Data
             {
                 _Logger.LogError(e, "Ошибка при инициализации БД данными каталога товаров");
 
+                throw;
+            }
+
+            try
+            {
+                InitializeIdentityAsync().Wait();
+            }
+            catch (Exception e)
+            {
+                _Logger.LogError(e, "Ошибка при инициализации БД системы Identity");
                 throw;
             }
         }
@@ -95,6 +112,34 @@ namespace WebStore.Data
             }
 
             _Logger.LogInformation("Добавление исходных данных выполнено успешно за {0} мс", timer.ElapsedMilliseconds);
+        }
+
+        private async Task InitializeIdentityAsync()
+        {
+            async Task CheckRole(string RoleName)
+            {
+                if (!await _roleManager.RoleExistsAsync(RoleName))
+                    await _roleManager.CreateAsync(new Role { Name = RoleName });
+            }
+
+            await CheckRole(Role.Administrator);
+            await CheckRole(Role.User);
+
+            if (await _userManager.FindByNameAsync(User.Administrator) is null)
+            {
+                var admin = new User
+                {
+                    UserName = User.Administrator
+                };
+                var creation_result = await _userManager.CreateAsync(admin, User.DefaultAdminPassword);
+                if (creation_result.Succeeded)
+                    await _userManager.AddToRoleAsync(admin, Role.Administrator);
+                else
+                {
+                    var errors = creation_result.Errors.Select(e => e.Description);
+                    throw new InvalidOperationException($"Ошибка при создании учётно записи администратора {string.Join(",", errors)}");
+                }
+            }
         }
     }
 }
