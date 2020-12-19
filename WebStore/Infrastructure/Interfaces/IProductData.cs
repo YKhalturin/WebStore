@@ -8,8 +8,14 @@ namespace WebStore.Infrastructure.Interfaces
     {
         IEnumerable<Section> GetSections();
 
+        Section GetSectionById(int id);
+
         IEnumerable<Brand> GetBrands();
 
-        IEnumerable<Product> GetProducts(ProductFilter Filter = null); 
+        Brand GetBrandById(int id);
+
+        IEnumerable<Product> GetProducts(ProductFilter Filter = null);
+
+        Product GetProductById(int id);
     }
 }
