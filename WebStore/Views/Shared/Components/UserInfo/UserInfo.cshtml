@@ -4,7 +4,7 @@
         @if (User.IsInRole(Role.Administrator))
         {
             <li>
-                <a asp-controller="Home" asp-action="Index">
+                <a asp-controller="Home" asp-action="Index" asp-area="Admin">
                     <i class="fa fa-keyboard-o"></i> Админка
                 </a>
             </li>
