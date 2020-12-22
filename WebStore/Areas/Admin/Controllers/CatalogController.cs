@@ -4,16 +4,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using WebStore.Domain.Entities;
 using WebStore.Domain.Entities.Identity;
+using WebStore.Infrastructure.Interfaces;
 
 namespace WebStore.Areas.Admin.Controllers
 {
     [Area("Admin"), Authorize(Roles = Role.Administrator)]
     public class CatalogController : Controller
     {
-        public IActionResult Index()
+        private readonly IProductData _ProductData;
+
+        public CatalogController(IProductData ProductData) => _ProductData = ProductData;
+
+        public IActionResult Index() => View(_ProductData.GetProducts());
+
+        public IActionResult Edit(int id)
         {
-            return View();
+            var product = _ProductData.GetProductById(id);
+            if (product is null) return NotFound();
+            return View(product);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Product product)
+        {
+            if (!ModelState.IsValid) return View(product);
+
+            // Логика редактирования
+            // Логика вызова метода из IProductData
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var product = _ProductData.GetProductById(id);
+            if (product is null) return NotFound();
+            return View(product);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirm(int id)
+        {
+            // Логика удаления
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
