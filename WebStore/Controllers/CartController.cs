@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using WebStore.Infrastructure.Interfaces;
+using WebStore.ViewModels;
 
 namespace WebStore.Controllers
 {
@@ -44,5 +45,37 @@ namespace WebStore.Controllers
             _CartService.Clear();
             return RedirectToAction(nameof(Index));
         }
+
+
+        public IActionResult CheckOut(OrderViewModel OrderModel)
+        {
+            return RedirectToAction("Index");
+        }
+
+        //[Authorize]
+        //public async Task<IActionResult> CheckOut(OrderViewModel OrderModel, [FromServices] IOrderService OrderService)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return View(nameof(Index), new CartOrderViewModel
+        //        {
+        //            Cart = _CartService.TransformFromCart(),
+        //            Order = OrderModel
+        //        });
+
+        //    var order = await OrderService.CreateOrder(
+        //        User.Identity!.Name,
+        //        _CartService.TransformFromCart(),
+        //        OrderModel);
+
+        //    _CartService.Clear();
+
+        //    return RedirectToAction("OrderConfirmed", new { order.Id });
+        //}
+
+        //public IActionResult OrderConfirmed(int id)
+        //{
+        //    ViewBag.OrderId = id;
+        //    return View();
+        //}
     }
 }
