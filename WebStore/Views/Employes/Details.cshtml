@@ -1,4 +1,5 @@
-﻿@model WebStore.Models.Employee
+﻿@using WebStore.Domain.Entities.Identity
+@model WebStore.Models.Employee
 <!DOCTYPE html>
 
 <div class="container">
@@ -26,11 +27,14 @@
         </tr>
     </table>
     <hr />
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-default">
-        <i class="fa fa-edit"></i>Редактировать
-    </a>
-    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
-        <i class="fa fa-trash-o"></i>Удалить
-    </a> 
+    @if (User.IsInRole(Role.Administrator))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-default">
+            <i class="fa fa-edit"></i> Редактировать
+        </a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+            <i class="fa fa-trash-o"></i> Удалить
+        </a>
+    }
     <a asp-action="Index" class="btn btn-default">Назад к списку сотрудников</a>
 </div>
